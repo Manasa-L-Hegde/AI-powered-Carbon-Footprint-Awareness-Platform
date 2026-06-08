@@ -7,7 +7,7 @@
 [![Vite](https://img.shields.io/badge/Vite-5.2-646CFF?logo=vite)](https://vitejs.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?logo=tailwindcss)](https://tailwindcss.com)
 [![No API Key Required](https://img.shields.io/badge/API%20Key-Not%20Required-brightgreen)](#)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Project-black?logo=vercel)](https://ecotrace-ai.vercel.app/)
+
 ---
 
 ## 📌 Chosen Vertical
