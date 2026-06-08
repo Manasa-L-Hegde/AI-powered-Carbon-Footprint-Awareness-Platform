@@ -2,7 +2,7 @@
 
 > **Hack2Skill Submission** | AI-Powered Carbon Footprint Calculator & Sustainability Advisor
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=flat&logo=vercel)](https://vercel.com)
+[![Deployed on Vercel](https://ecotrace-ai.vercel.app/)](https://vercel.com)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-5.2-646CFF?logo=vite)](https://vitejs.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?logo=tailwindcss)](https://tailwindcss.com)
