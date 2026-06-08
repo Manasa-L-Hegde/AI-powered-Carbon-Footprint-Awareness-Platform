@@ -20,6 +20,14 @@
 
 Climate change is driven by greenhouse gas emissions, yet most individuals lack awareness of their personal carbon footprint. Without clear visibility into which daily activities contribute most to emissions, people cannot make informed decisions about reducing their environmental impact. Existing tools often require paid API subscriptions, lack offline capability, or provide generic advice that doesn't account for individual usage patterns.
 
+## How This Solution Addresses the Challenge
+
+EcoTrace AI helps users:
+
+- Understand their carbon footprint through detailed emission calculations.
+- Track their environmental impact using dashboards, historical records, and analytics.
+- Reduce emissions through personalized AI-driven recommendations and sustainability action plans.
+- Make informed decisions using context-aware insights tailored to their lifestyle and usage patterns.
 ---
 
 ## 💡 Solution Overview
