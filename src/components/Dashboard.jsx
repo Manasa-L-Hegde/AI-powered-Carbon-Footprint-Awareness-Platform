@@ -1,7 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo, useCallback } from 'react';
 import Chart from 'chart.js/auto';
-import { Activity, AlertTriangle, ShieldCheck, Download, Trash, Trash2, TrendingUp, History, Leaf, Check, Target, Award } from 'lucide-react';
+import { Activity, AlertTriangle, ShieldCheck, Download, Trash, Trash2, TrendingUp, History, Leaf, Check, Target, Award, FileDown } from 'lucide-react';
 import { classifyRisk, SUSTAINABILITY_GOALS, NATIONAL_AVERAGE } from '../utils/carbonEngine';
+import { exportPDF } from '../utils/pdfExport';
+import Simulator from './Simulator';
+import BenchmarkComparison from './BenchmarkComparison';
+import ActionPlanner from './ActionPlanner';
+import SustainabilityIndex from './SustainabilityIndex';
+import Achievements from './Achievements';
 
 const RISK_BADGE = {
   emerald: 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400',
@@ -19,12 +25,15 @@ export default function Dashboard({ history, onDelete, onClearAll, goals, onUpda
   const score = latest?.score ?? 0;
   const risk = classifyRisk(score);
 
-  // Goal reduction calculations
-  const activeReduction = SUSTAINABILITY_GOALS.reduce((sum, g) => sum + (goals[g.id] ? g.reduction : 0), 0);
-  const currentTotal = latest ? latest.total : 0;
-  const projectedTotal = Math.max(0, currentTotal - activeReduction);
-  const reductionPercent = currentTotal > 0 ? Math.round((activeReduction / currentTotal) * 100) : 0;
-  const goalsCompleted = SUSTAINABILITY_GOALS.filter(g => goals[g.id]).length;
+  // Goal reduction calculations (memoized)
+  const { activeReduction, currentTotal, projectedTotal, reductionPercent, goalsCompleted } = useMemo(() => {
+    const activeReduction = SUSTAINABILITY_GOALS.reduce((sum, g) => sum + (goals[g.id] ? g.reduction : 0), 0);
+    const currentTotal = latest ? latest.total : 0;
+    const projectedTotal = Math.max(0, currentTotal - activeReduction);
+    const reductionPercent = currentTotal > 0 ? Math.round((activeReduction / currentTotal) * 100) : 0;
+    const goalsCompleted = SUSTAINABILITY_GOALS.filter(g => goals[g.id]).length;
+    return { activeReduction, currentTotal, projectedTotal, reductionPercent, goalsCompleted };
+  }, [latest, goals]);
 
   const diff = latest ? latest.total - NATIONAL_AVERAGE : 0;
   const diffPercent = Math.round((Math.abs(diff) / NATIONAL_AVERAGE) * 100);
@@ -68,7 +77,7 @@ export default function Dashboard({ history, onDelete, onClearAll, goals, onUpda
   }, [history, latest]);
 
   // CSV export
-  const handleExportCSV = () => {
+  const handleExportCSV = useCallback(() => {
     if (history.length === 0) return;
     let csv = "data:text/csv;charset=utf-8,Date,Name,Transport,Energy,Flights,Diet,Total,Score\r\n";
     history.forEach(e => { csv += `"${e.date}","${e.name.replace(/"/g,'""')}",${e.transport.toFixed(2)},${e.energy.toFixed(2)},${e.flights.toFixed(2)},${e.diet.toFixed(2)},${e.total.toFixed(2)},${e.score}\r\n`; });
@@ -76,7 +85,13 @@ export default function Dashboard({ history, onDelete, onClearAll, goals, onUpda
     link.href = encodeURI(csv);
     link.download = `EcoTrace_History_${new Date().toISOString().slice(0,10)}.csv`;
     document.body.appendChild(link); link.click(); document.body.removeChild(link);
-  };
+  }, [history]);
+
+  // PDF export
+  const handleExportPDF = useCallback(() => {
+    if (!latest) return;
+    exportPDF(latest, history, goals);
+  }, [latest, history, goals]);
 
   return (
     <div className="flex flex-col gap-8 animate-fade-in">
@@ -155,6 +170,21 @@ export default function Dashboard({ history, onDelete, onClearAll, goals, onUpda
         </div>
       </div>
 
+      {/* ── NEW: Benchmark Comparison ── */}
+      {latest && <BenchmarkComparison userTotal={latest.total} />}
+
+      {/* ── NEW: Sustainability Index ── */}
+      {latest && <SustainabilityIndex profile={latest} />}
+
+      {/* ── NEW: Carbon Reduction Simulator ── */}
+      {latest && <Simulator currentTotal={latest.total} />}
+
+      {/* ── NEW: AI 30-Day Action Planner ── */}
+      {latest && <ActionPlanner profile={latest} />}
+
+      {/* ── NEW: Achievement System ── */}
+      <Achievements history={history} goals={goals} />
+
       {/* ── Sustainability Goal Tracker ── */}
       <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/40 border border-slate-800 backdrop-blur-md" id="goal-tracker">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
@@ -224,7 +254,10 @@ export default function Dashboard({ history, onDelete, onClearAll, goals, onUpda
           <h3 className="font-heading font-bold text-lg text-white flex items-center gap-2">
             <History className="w-5 h-5 text-emerald-400" /> Calculation Log
           </h3>
-          <div className="flex gap-2 w-full sm:w-auto">
+          <div className="flex gap-2 w-full sm:w-auto flex-wrap">
+            <button id="export-pdf-btn" onClick={handleExportPDF} disabled={!latest} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 text-xs font-semibold text-emerald-400 hover:from-emerald-500/20 hover:to-teal-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed" aria-label="Export sustainability report as PDF">
+              <FileDown className="w-3.5 h-3.5" /> Export PDF
+            </button>
             <button id="export-csv-btn" onClick={handleExportCSV} disabled={history.length===0} className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs font-semibold text-slate-300 hover:border-emerald-500/30 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
               <Download className="w-3.5 h-3.5" /> Export CSV
             </button>

@@ -1,108 +1,232 @@
 # 🌿 EcoTrace AI — Carbon Footprint Awareness Platform
 
-> **Hack2Skill Submission** | AI-Powered Carbon Footprint Calculator & Sustainability Advisor
+> **AI-powered, fully offline carbon footprint calculator with reduction simulator, 30-day action planner, benchmark comparisons, sustainability index, achievement system, and PDF export.**
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=flat&logo=vercel)](https://vercel.com)
-[![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)](https://react.dev)
-[![Vite](https://img.shields.io/badge/Vite-5.2-646CFF?logo=vite)](https://vitejs.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?logo=tailwindcss)](https://tailwindcss.com)
-[![No API Key Required](https://img.shields.io/badge/API%20Key-Not%20Required-brightgreen)](#)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Manasa-L-Hegde/AI-powered-Carbon-Footprint-Awareness-Platform)
 
 ---
 
-## 📌 Chosen Vertical
+## 🏆 Key Features
 
-**Carbon Footprint Awareness Platform**
-
----
-
-## 🧩 Problem Statement
-
-Climate change is driven by greenhouse gas emissions, yet most individuals lack awareness of their personal carbon footprint. Without clear visibility into which daily activities contribute most to emissions, people cannot make informed decisions about reducing their environmental impact. Existing tools often require paid API subscriptions, lack offline capability, or provide generic advice that doesn't account for individual usage patterns.
-
----
-
-## 💡 Solution Overview
-
-**EcoTrace AI** is a fully offline, AI-powered carbon footprint awareness platform that enables users to:
-
-1. **Calculate** their annual carbon emissions across 4 categories (transport, energy, flights, diet) using a guided 4-step form
-2. **Understand** their impact through a Carbon Score (0–100) and Risk Classification system
-3. **Receive** personalized, context-aware sustainability recommendations from a local AI decision engine
-4. **Track** progress with interactive dashboards, historical trends, and sustainability goal commitments
-5. **Generate** comprehensive audit reports — all without any API key or internet dependency
-
-### Key Differentiator
-
-All AI recommendations, risk assessments, and audit reports are generated **entirely offline** using a sophisticated rule-based decision engine. An optional OpenAI integration exists for users who want GPT-powered analysis, but it is **never required**.
+| Feature | Description |
+|---|---|
+| **Multi-Step Calculator** | 4-step guided form covering transport, energy, flights, and diet with EPA-validated emission factors |
+| **Carbon Reduction Simulator** | Select 14+ sustainability actions and instantly see projected footprint reduction with percentage savings |
+| **AI 30-Day Action Planner** | AI-generated weekly sustainability goals personalized to your highest emission category |
+| **Benchmark Comparison** | Compare your footprint against India average (1.9T), global average (4.0T), US average (8.0T), and Paris Agreement target (2.0T) |
+| **Sustainability Index** | Per-category scores (Transport, Energy, Food, Flights) and overall score out of 100 |
+| **Achievement System** | 6 unlockable badges: Green Beginner → Carbon Saver → Climate Champion → Tracker Pro → Goal Setter → Eco Warrior |
+| **Interactive Dashboard** | Doughnut + bar charts (Chart.js), KPI cards, goal tracker with animated ring visualization |
+| **AI Recommendations** | Context-aware sustainability advice powered by local decision engine — no API key required |
+| **PDF Export** | Download a complete professional sustainability report with dark-themed tables |
+| **CSV Export** | Export full calculation history as CSV |
+| **Audit Reports** | Full audit reports with risk classification, reduction estimates, and actionable insights |
+| **OpenAI Integration** | Optional GPT-4o-mini powered analysis (API key stored locally only) |
+| **100% Offline** | All core features work without internet. Zero API dependencies for calculations |
 
 ---
 
-## 🧠 Dynamic Decision-Making Logic
-
-The AI recommendation engine uses context-aware decision logic to analyze user data:
+## 🏗️ Architecture
 
 ```
-INPUT: User emission profile {transport, energy, flights, diet}
-
-STEP 1: Sort categories by emission value (descending)
-STEP 2: Identify PRIMARY focus (highest emitter)
-STEP 3: Identify SECONDARY focus (second highest)
-
-STEP 4: Generate recommendations based on context:
-
-  IF transportation is highest:
-    → Recommend EV adoption, carpooling, cycling, public transit, remote work
-    
-  IF home energy is highest:
-    → Recommend renewable energy, smart thermostat, LED lighting, insulation
-    
-  IF flights is highest:
-    → Recommend rail alternatives, direct flights, video conferencing, carbon offsets
-    
-  IF diet is highest:
-    → Recommend plant-based meals, local produce, composting, meal planning
-
-STEP 5: Calculate reduction potential based on impact levels
-STEP 6: Compare against national average (8.0 Tons/yr)
-STEP 7: Classify risk level from Carbon Score
+┌─────────────────────────────────────────────────────────────┐
+│                        EcoTrace AI                          │
+│                    (React 18 + Vite 5)                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐       │
+│  │   Home   │ │Calculator│ │Dashboard │ │    AI    │       │
+│  │  Page    │ │  4-Step  │ │  + KPIs  │ │Assistant │       │
+│  └──────────┘ └──────────┘ └────┬─────┘ └──────────┘       │
+│                                 │                           │
+│              ┌──────────────────┼──────────────────┐        │
+│              │                  │                  │        │
+│  ┌───────────▼──┐ ┌────────────▼───┐ ┌────────────▼───┐    │
+│  │  Simulator   │ │  Benchmark     │ │ Sustainability │    │
+│  │  (14 actions)│ │  Comparison    │ │    Index       │    │
+│  └──────────────┘ └────────────────┘ └────────────────┘    │
+│              │                  │                  │        │
+│  ┌───────────▼──┐ ┌────────────▼───┐ ┌────────────▼───┐    │
+│  │  Action      │ │  Achievement   │ │  PDF Export    │    │
+│  │  Planner     │ │  System        │ │  (jsPDF)       │    │
+│  └──────────────┘ └────────────────┘ └────────────────┘    │
+│                                                             │
+├─────────────────────────────────────────────────────────────┤
+│              Carbon Engine (Pure Functions)                  │
+│  ┌─────────┐ ┌──────────┐ ┌─────────┐ ┌──────────────┐     │
+│  │Emission │ │Scoring & │ │Recommend│ │ Memoization  │     │
+│  │Calc     │ │Risk Class│ │Engine   │ │ Cache        │     │
+│  └─────────┘ └──────────┘ └─────────┘ └──────────────┘     │
+├─────────────────────────────────────────────────────────────┤
+│              localStorage (Client-Side Persistence)         │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### Carbon Score Formula
+---
+
+## 🧠 AI Logic & Methodology
+
+### Emission Calculation Engine
+
+All calculations use EPA and DEFRA emission factors:
+
+| Source | Factor | Unit |
+|---|---|---|
+| Petrol Car | 0.18 | kg CO2e/km |
+| Diesel Car | 0.17 | kg CO2e/km |
+| Hybrid | 0.09 | kg CO2e/km |
+| Electric Vehicle | 0.05 | kg CO2e/km |
+| Public Transit | 0.04 | kg CO2e/km |
+| Grid Electricity | 0.38 | kg CO2e/kWh |
+| Natural Gas | 2.03 | kg CO2e/m³ |
+| Short-haul Flight | 0.25 | kg CO2e/km |
+| Long-haul Flight | 0.14 | kg CO2e/km |
+
+### Carbon Score Algorithm
+
 ```
-Score = 100 × exp(-TotalEmissions / 12)
+Score = max(1, min(100, round(100 × e^(-Total/12))))
 ```
-- 0 Tons → Score 100
-- 8 Tons (national avg) → Score ~51
-- Higher score = lower environmental impact
+
+- **0 Tons** → Score **100** (perfect)
+- **8 Tons (US avg)** → Score **~51**
+- **16 Tons** → Score **~26** (high impact)
 
 ### Risk Classification
-| Score Range | Risk Level | Color |
+
+| Score Range | Level | Classification |
 |---|---|---|
-| 71–100 | LOW IMPACT | 🟢 Green |
-| 31–70 | MEDIUM IMPACT | 🟡 Amber |
-| 0–30 | HIGH IMPACT | 🔴 Red |
+| 71-100 | LOW | Low Impact (Green) |
+| 31-70 | MEDIUM | Medium Impact (Amber) |
+| 0-30 | HIGH | High Impact (Red) |
+
+### Sustainability Index
+
+Per-category exponential scoring:
+```
+Transport Score = 100 × e^(-transport/3)
+Energy Score    = 100 × e^(-energy/3)
+Food Score      = 100 × e^(-diet/2)
+Flight Score    = 100 × e^(-flights/2)
+Overall         = Average of all four
+```
+
+### Smart Recommendation Engine
+
+1. **Categorize** emissions into transport, energy, flights, diet
+2. **Sort** categories by emission value (descending)
+3. **Select** top 3 high/medium-impact tips for primary source
+4. **Select** top 2 tips for secondary source
+5. **Estimate** reduction potential based on impact levels
+
+### Carbon Reduction Simulator
+
+- 14 pre-defined sustainability actions with scientifically-backed CO2 reduction estimates
+- Real-time projected footprint recalculation
+- Percentage reduction and annual CO2 savings display
+
+### AI 30-Day Action Planner
+
+- Identifies highest emission category from user profile
+- Generates 4-week structured plan with specific daily/weekly tasks
+- Includes bonus tips from secondary emission category
 
 ---
 
-## 🌍 Real World Use Cases
+## 📁 Project Structure
 
-1. **Individual Awareness** — Users calculate their personal footprint and discover which habits (driving, heating, flying, diet) contribute most
-2. **Household Optimization** — Families use the household size split to understand per-capita energy impact and set shared goals
-3. **Corporate Sustainability** — Teams audit employee commute and travel patterns to inform green workplace policies
-4. **Educational Tool** — Schools and universities use the platform to teach climate literacy with interactive visualizations
-5. **Goal Setting** — Users commit to specific actions (LED bulbs, public transit, meatless days) and see projected reductions in real-time
+```
+src/
+├── App.jsx                    # Root component, routing, state management
+├── main.jsx                   # React DOM entry point
+├── index.css                  # Global styles, animations, scrollbar customization
+├── components/
+│   ├── Home.jsx               # Landing page with feature showcase
+│   ├── Calculator.jsx         # 4-step emission calculator with validation
+│   ├── Dashboard.jsx          # Analytics hub integrating all sub-components
+│   ├── AIAssistant.jsx        # Recommendations, audit reports, optional OpenAI
+│   ├── About.jsx              # Methodology, FAQ, best practices
+│   ├── Simulator.jsx          # Carbon Reduction Simulator
+│   ├── BenchmarkComparison.jsx # Benchmark comparison bars
+│   ├── ActionPlanner.jsx      # AI 30-Day Action Planner
+│   ├── SustainabilityIndex.jsx # Category sustainability scores
+│   └── Achievements.jsx       # Achievement badge system
+├── utils/
+│   ├── carbonEngine.js        # Core calculation engine (memoized)
+│   └── pdfExport.js           # jsPDF-based PDF report generator
+└── tests/
+    └── carbonEngine.test.js   # Unit tests for emission calculations
+```
 
 ---
 
-## 📋 Assumptions
+## 🛡️ Accessibility
 
-- Emission factors are sourced from **EPA GHG Emission Factors Hub** and **UK DEFRA** conversion tables
-- National average baseline is set at **8.0 Tons CO2e/yr** (US average)
-- Grid electricity factor of **0.38 kg CO2e/kWh** represents a mixed-source grid average
-- Flight emissions include a **radiative forcing multiplier** built into the per-km factors
-- Diet emission values represent annual averages across typical food consumption patterns
-- All calculations are estimates for awareness purposes, not certified carbon accounting
+- **Skip navigation link** for keyboard users
+- **ARIA labels** on all interactive elements, charts, and regions
+- **ARIA roles** (navigation, main, tablist, radiogroup, status, region)
+- **Keyboard navigation** support with visible focus indicators
+- **Screen reader** compatible with proper `aria-current`, `aria-expanded`, `aria-pressed`
+- **Color contrast** meeting WCAG 2.1 AA standards
+- **Focus-visible** outlines on all focusable elements
+- **Print styles** for clean document output
+
+---
+
+## ⚡ Performance Optimizations
+
+- **Memoization cache** in carbon engine for repeated calculations
+- **`useMemo`** for expensive computations (goal reduction, simulator, sustainability index)
+- **`useCallback`** for event handlers to prevent unnecessary re-renders
+- **Component decomposition** — new features are separate lazy-loadable components
+- **Chart.js cleanup** — proper `destroy()` on unmount prevents memory leaks
+- **localStorage batching** — efficient state persistence
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ and npm 9+
+
+### Installation
+
+```bash
+git clone https://github.com/Manasa-L-Hegde/AI-powered-Carbon-Footprint-Awareness-Platform.git
+cd AI-powered-Carbon-Footprint-Awareness-Platform
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+### Build for Production
+
+```bash
+npm run build
+npm run preview
+```
+
+### Run Tests
+
+```bash
+npm test
+```
+
+---
+
+## 🌐 Deployment
+
+### Vercel (Recommended)
+
+1. Push to GitHub
+2. Import repository in [Vercel Dashboard](https://vercel.com)
+3. Framework: **Vite** (auto-detected)
+4. Build command: `npm run build`
+5. Output directory: `dist`
+
+No environment variables required — all features work offline.
 
 ---
 
@@ -110,140 +234,31 @@ Score = 100 × exp(-TotalEmissions / 12)
 
 | Technology | Purpose |
 |---|---|
-| **React 18** | Component-based UI with hooks |
-| **Vite 5** | Fast dev server & optimized builds |
-| **Tailwind CSS 3** | Utility-first responsive styling |
-| **Chart.js 4** | Interactive doughnut & bar charts |
-| **Lucide React** | Modern icon system |
-| **LocalStorage** | Client-side data persistence |
-| **ES Modules** | Native module system for tests |
-
-### Architecture
-```
-src/
-├── App.jsx                    # Main app shell with routing & state
-├── main.jsx                   # React entry point
-├── index.css                  # Global styles, animations, accessibility
-├── utils/
-│   └── carbonEngine.js        # Pure-function calculation & AI engine
-├── components/
-│   ├── Home.jsx               # Landing page with hero & features
-│   ├── Calculator.jsx         # 4-step multi-input carbon calculator
-│   ├── Dashboard.jsx          # KPIs, charts, goal tracker, history
-│   ├── AIAssistant.jsx        # Smart recommendations & audit reports
-│   └── About.jsx              # Education, best practices, FAQ
-└── tests/
-    └── carbonEngine.test.js   # 63 automated tests
-```
+| **React 18** | UI framework with hooks |
+| **Vite 5** | Build tool and dev server |
+| **Chart.js 4** | Interactive doughnut and bar charts |
+| **jsPDF + AutoTable** | Professional PDF report generation |
+| **Tailwind CSS 3** | Utility-first styling |
+| **Lucide React** | Modern icon library |
+| **localStorage** | Client-side data persistence |
 
 ---
 
-## 🚀 Installation
+## 📊 Benchmarks Used
 
-```bash
-# Clone the repository
-git clone https://github.com/Manasa-L-Hegde/AI-powered-Carbon-Footprint-Awareness-Platform.git
-cd AI-powered-Carbon-Footprint-Awareness-Platform
-
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Run tests
-npm test
-
-# Build for production
-npm run build
-```
-
-The app runs at `http://localhost:3000` by default.
+| Benchmark | Value | Source |
+|---|---|---|
+| India Average | 1.9 Tons CO2e/yr | World Bank 2023 |
+| Global Average | 4.0 Tons CO2e/yr | Our World in Data |
+| US National Average | 8.0 Tons CO2e/yr | EPA GHG Inventory |
+| Paris Agreement Target | 2.0 Tons CO2e/yr | UNFCCC 1.5°C Pathway |
 
 ---
 
-## 🌐 Deployment (Vercel)
+## 📝 License
 
-### Option 1: Vercel CLI
-```bash
-npm i -g vercel
-vercel
-```
-
-### Option 2: Vercel Dashboard
-1. Go to [vercel.com](https://vercel.com) and sign in with GitHub
-2. Click **"New Project"** → Import this repository
-3. Framework Preset: **Vite**
-4. Build Command: `npm run build`
-5. Output Directory: `dist`
-6. Click **Deploy**
-
-No environment variables are required. The app works without any configuration.
+MIT License — feel free to use, modify, and distribute.
 
 ---
 
-## ✅ Features Checklist
-
-- [x] **Multi-Step Carbon Calculator** — 4 guided steps covering transport, energy, flights, diet
-- [x] **Carbon Score** — Exponential decay formula (0–100 scale)
-- [x] **Risk Classification** — LOW / MEDIUM / HIGH with colored badges
-- [x] **Smart AI Recommendations** — Context-aware, offline, no API key needed
-- [x] **Interactive Dashboard** — Doughnut chart, bar chart, KPI cards, history table
-- [x] **Sustainability Goal Tracker** — 10 actions with real-time projected reduction
-- [x] **AI Audit Report** — Full markdown report, downloadable offline
-- [x] **About & FAQ** — Climate education, emission factors, best practices
-- [x] **Optional OpenAI Integration** — GPT-4o support if user provides key
-- [x] **CSV Export** — Download calculation history
-- [x] **LocalStorage Persistence** — All data stored client-side
-- [x] **Accessibility** — ARIA labels, keyboard navigation, skip link, semantic HTML
-- [x] **Mobile Responsive** — Full mobile-first design
-- [x] **Dark Theme** — Modern green sustainability branding
-- [x] **Automated Tests** — 63 tests covering all core logic
-- [x] **Vercel Ready** — Zero-config deployment
-
----
-
-## 🧪 Testing
-
-The test suite validates all core business logic:
-
-```bash
-npm test
-```
-
-**63 tests** covering:
-- Carbon emission calculations (transport, energy, flights, diet)
-- Score generation (exponential decay model)
-- Risk classification (boundary testing at 30, 31, 70, 71)
-- Recommendation engine (primary/secondary focus identification)
-- Audit report generation (content validation)
-- Sustainability goals (structure and reduction values)
-
----
-
-## 🔮 Future Improvements
-
-- **PWA Support** — Service worker for full offline capability and app-like experience
-- **Multi-language** — i18n support for global accessibility
-- **Regional Emission Factors** — Country-specific grid electricity and transport factors
-- **Social Sharing** — Share Carbon Score cards on social media
-- **Team Dashboards** — Collaborative footprint tracking for organizations
-- **Gamification** — Achievement badges and streak tracking for goal completion
-- **Data Visualization** — Treemap, radar chart, and comparison views
-- **Carbon Offset Marketplace** — Integration with verified offset providers
-- **Push Notifications** — Reminders for sustainability goal check-ins
-- **Machine Learning** — Predictive modeling based on historical patterns
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-<p align="center">
-  Built with 💚 for the Hack2Skill Carbon Footprint Awareness Challenge
-  <br/>
-  <strong>EcoTrace AI</strong> — Understand, Track, and Reduce Your Carbon Footprint
-</p>
+*Built with 💚 for a sustainable future • No API keys required • 100% client-side*

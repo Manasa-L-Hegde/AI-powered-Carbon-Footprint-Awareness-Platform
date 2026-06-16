@@ -1,14 +1,17 @@
 import React from 'react';
-import { ArrowRight, Leaf, Sparkles, Sliders, BarChart3, ShieldCheck, Globe, Zap, Target } from 'lucide-react';
+import { ArrowRight, Leaf, Sparkles, Sliders, BarChart3, ShieldCheck, Globe, Zap, Target, Trophy, FileDown, Calendar } from 'lucide-react';
 
 export default function Home({ onNavigate }) {
   const features = [
     { icon: Sliders, color: 'emerald', title: 'Multi-Step Calculator', desc: 'Track transport, energy, flights, and diet emissions using EPA-validated carbon coefficients.' },
-    { icon: BarChart3, color: 'sky', title: 'Interactive Dashboard', desc: 'Visualize your carbon profile with doughnut and bar charts, compare against national averages.' },
+    { icon: BarChart3, color: 'sky', title: 'Interactive Dashboard', desc: 'Visualize your carbon profile with doughnut and bar charts, benchmark comparisons, and sustainability index.' },
     { icon: Sparkles, color: 'amber', title: 'AI Recommendations', desc: 'Context-aware sustainability advice powered by local decision logic — no API key required.' },
-    { icon: Target, color: 'violet', title: 'Goal Tracker', desc: 'Set sustainability commitments and see your projected footprint reduction update in real-time.' },
-    { icon: ShieldCheck, color: 'teal', title: 'Audit Reports', desc: 'Generate offline audit reports with risk classification, reduction estimates, and actionable insights.' },
-    { icon: Zap, color: 'rose', title: 'Fully Offline', desc: 'All calculations and reports run in your browser. Zero API dependencies, zero data sharing.' }
+    { icon: Target, color: 'violet', title: 'Reduction Simulator', desc: 'Select sustainability actions and instantly see projected carbon footprint reduction in real-time.' },
+    { icon: Calendar, color: 'teal', title: '30-Day Action Plan', desc: 'AI-generated weekly sustainability goals personalized to your highest emission categories.' },
+    { icon: Trophy, color: 'rose', title: 'Achievement System', desc: 'Unlock badges from Green Beginner to Climate Champion as you progress your sustainability journey.' },
+    { icon: ShieldCheck, color: 'emerald', title: 'Benchmark Comparison', desc: 'Compare your footprint with India average, global average, and Paris Agreement target.' },
+    { icon: FileDown, color: 'sky', title: 'PDF Export', desc: 'Download a complete professional sustainability report with benchmarks, index scores, and recommendations.' },
+    { icon: Zap, color: 'amber', title: 'Fully Offline', desc: 'All calculations and reports run in your browser. Zero API dependencies, zero data sharing.' }
   ];
 
   const colorMap = {
@@ -58,7 +61,7 @@ export default function Home({ onNavigate }) {
 
       {/* Stats */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4" aria-label="Platform highlights">
-        {[{s:'100%',l:'Offline Ready'},{s:'4-Step',l:'Calculator'},{s:'Real-time',l:'AI Analysis'},{s:'10+',l:'Goal Actions'}].map((item,i)=>(
+        {[{s:'100%',l:'Offline Ready'},{s:'9+',l:'Premium Features'},{s:'Real-time',l:'AI Analysis'},{s:'PDF',l:'Report Export'}].map((item,i)=>(
           <div key={i} className="p-4 rounded-2xl bg-slate-900/30 border border-slate-800/60 text-center hover:border-emerald-500/20 transition-colors">
             <div className="font-heading font-extrabold text-2xl bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">{item.s}</div>
             <div className="text-slate-500 text-xs mt-1 font-medium">{item.l}</div>
